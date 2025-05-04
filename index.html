@@ -229,7 +229,12 @@ Enter an API URL above and click Fetch or press Enter.</pre
           const json = await res.json();
           output.innerHTML = highlightJSON(json);
         } catch (err) {
-          output.innerHTML = `<span class="error">Error: ${err.message}</span>`;
+          const isLocal =
+            url.includes("localhost") || url.includes("127.0.0.1");
+          const help = isLocal
+            ? `<br><br><small>👀 If you're testing a local server, make sure it's running, allows CORS, and this tool is loaded from localhost too.</small>`
+            : "";
+          output.innerHTML = `<span class="error">Error: ${err.message}</span>${help}`;
         }
       };
 
