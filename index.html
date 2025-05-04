@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Jin — JSON API Viewer</title>
+    <style>
+      :root {
+        --bg-light: #f0f4f8;
+        --bg-dark: #1e1e1e;
+        --card-bg-light: #ffffff;
+        --card-bg-dark: #2a2a2a;
+        --text-light: #333;
+        --text-dark: #f0f0f0;
+        --accent: #007acc;
+        --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 40px 20px;
+        font-family: var(--font-family);
+        background-color: var(--bg-light);
+        color: var(--text-light);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: background 0.3s, color 0.3s;
+      }
+
+      body.dark {
+        background-color: var(--bg-dark);
+        color: var(--text-dark);
+      }
+
+      h1 {
+        margin-bottom: 20px;
+        font-size: 2rem;
+      }
+
+      .card {
+        background-color: var(--card-bg-light);
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        width: 90%;
+        max-width: 900px;
+        transition: background 0.3s;
+      }
+
+      body.dark .card {
+        background-color: var(--card-bg-dark);
+      }
+
+      .input-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      input[type="text"] {
+        flex: 1;
+        padding: 12px 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+      }
+
+      button {
+        padding: 12px 20px;
+        font-size: 16px;
+        background-color: var(--accent);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+
+      button:hover {
+        background-color: #005f99;
+      }
+
+      pre {
+        background-color: #1e1e1e;
+        color: #f8f8f2;
+        padding: 20px;
+        border-radius: 10px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .key {
+        color: #9cdcfe;
+      }
+      .string {
+        color: #ce9178;
+      }
+      .number {
+        color: #b5cea8;
+      }
+      .boolean {
+        color: #569cd6;
+      }
+      .null {
+        color: #d16969;
+      }
+      .error {
+        color: red;
+      }
+
+      .toggle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+        font-size: 14px;
+        background: none;
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        border-radius: 6px;
+        padding: 6px 12px;
+        transition: all 0.2s;
+      }
+
+      .toggle:hover {
+        background-color: var(--accent);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="toggle" onclick="toggleTheme()">Toggle Theme</button>
+    <h1>🧪 Jin — JSON API Viewer</h1>
+    <div class="card">
+      <form onsubmit="fetchJSON(event)">
+        <div class="input-group">
+          <input
+            type="text"
+            id="api-url"
+            placeholder="Enter API URL..."
+            autocomplete="off"
+          />
+          <button type="submit">Fetch</button>
+        </div>
+      </form>
+      <pre id="output">
+Enter an API URL above and click Fetch or press Enter.</pre
+      >
+    </div>
+    <footer><small>&copy; By Nurul Islam Rimon</small></footer>
+    <script>
+      const highlightJSON = (json) => {
+        const pretty = JSON.stringify(json, null, 2);
+        return pretty
+          .replace(/("(.*?)")(\s*:\s*)?/g, (match, p1, p2, p3) => {
+            if (p3) return `<span class="key">${p1}</span>${p3}`;
+            return `<span class="string">${p1}</span>`;
+          })
+          .replace(/\b(true|false)\b/g, '<span class="boolean">$1</span>')
+          .replace(/\b(null)\b/g, '<span class="null">$1</span>')
+          .replace(/(\d+)(?=,|\n|\s)/g, '<span class="number">$1</span>');
+      };
+
+      const fetchJSON = async (event) => {
+        event.preventDefault();
+        const url = document.getElementById("api-url").value.trim();
+        const output = document.getElementById("output");
+
+        if (!url) {
+          output.innerHTML = `<span class="error">Please enter a valid URL.</span>`;
+          return;
+        }
+
+        output.textContent = "Loading...";
+
+        try {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+          const json = await res.json();
+          output.innerHTML = highlightJSON(json);
+        } catch (err) {
+          output.innerHTML = `<span class="error">Error: ${err.message}</span>`;
+        }
+      };
+
+      const toggleTheme = () => {
+        document.body.classList.toggle("dark");
+      };
+    </script>
+  </body>
+</html>
