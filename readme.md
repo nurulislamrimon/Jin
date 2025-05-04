@@ -26,7 +26,7 @@
 
 ```bash
 git clone https://github.com/nurulislamrimon/Jin.git
-cd jin-json-inspector
+cd jin
 ```
 
 ## Developed by Nurul Islam Rimon
