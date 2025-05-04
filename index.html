@@ -1,7 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta
+        name="description"
+        content="A fast, beautiful JSON API Viewer to fetch and preview JSON data with syntax highlighting."
+      />
+      <meta
+        name="keywords"
+        content="JSON Viewer, API Tester, JSON API, online JSON, API Viewer tool"
+      />
+      <meta name="author" content="Nurul Islam Rimon" />
+
+      <meta property="og:title" content="Jin – JSON API Viewer" />
+      <meta
+        property="og:description"
+        content="A clean and fast tool to view JSON from any public API."
+      />
+      <meta property="og:type" content="website" />
+      <meta
+        property="og:url"
+        content="https://nurulislamrimon.github.io/jin/"
+      />
+      <meta
+        property="og:image"
+        content="https://nurulislamrimon.github.io/jin/image.png"
+      />
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Jin – JSON API Viewer" />
+      <meta
+        name="twitter:description"
+        content="Quickly preview JSON from any public API endpoint."
+      />
+      <meta
+        name="twitter:image"
+        content="https://nurulislamrimon.github.io/jin/image.png"
+      />
+
+      <title>Jin – JSON API Viewer</title>
+    </head>
+
     <title>Jin — JSON API Viewer</title>
     <style>
       :root {
@@ -133,7 +174,7 @@
   </head>
   <body>
     <button class="toggle" onclick="toggleTheme()">Toggle Theme</button>
-    <h1>🧪 Jin — JSON API Viewer</h1>
+    <h1>Jin – Beautiful Online JSON API Viewer</h1>
     <div class="card">
       <form onsubmit="fetchJSON(event)">
         <div class="input-group">
@@ -150,6 +191,12 @@
 Enter an API URL above and click Fetch or press Enter.</pre
       >
     </div>
+    <p style="max-width: 800px; margin-top: 10px">
+      Jin is an elegant and fast tool for developers to fetch and view JSON data
+      from public APIs. Just enter an endpoint URL, hit Enter, and see
+      beautifully highlighted JSON instantly. No sign-up needed.
+    </p>
+
     <footer><small>&copy; By Nurul Islam Rimon</small></footer>
     <script>
       const highlightJSON = (json) => {
